@@ -3,21 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RBOWS 10 Professional</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>RBOWS 10 Build 9.90.93.20 Professional System Interface</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .desktop { display: flex; flex-wrap: wrap; width: 100%; }
+        .shortcut { width: 100px; height: 100px; margin: 10px; border: 1px solid #ccc; text-align: center; padding: 10px; }
+        .taskbar { background: #333; color: white; padding: 10px; position: fixed; bottom: 0; width: 100%; }
+        .start-menu { display: none; position: absolute; bottom: 50px; left: 10px; background: white; border: 1px solid #ccc; }
+        .app-store, .notifications, .chat-ai { display: flex; margin: 10px; }
+        .draggable { cursor: move; }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Welcome to RBOWS 10 Professional</h1>
-    </header>
-    <main>
-        <section>
-            <h2>System Interface</h2>
-            <p>This is the interface for the RBOWS 10 Professional system.</p>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2026 RBOWS Inc.</p>
-    </footer>
+    <div class="desktop">
+        <div class="shortcut draggable">Shortcut 1</div>
+        <div class="shortcut draggable">Shortcut 2</div>
+        <div class="shortcut draggable">Shortcut 3</div>
+    </div>
+    <div class="taskbar">
+        <button onclick="toggleStartMenu()">Start</button>
+        <div class="start-menu" id="startMenu">
+            <ul>
+                <li>Applications</li>
+                <li>Settings</li>
+                <li>Shutdown</li>
+            </ul>
+        </div>
+        <div class="notifications">Notifications</div>
+        <div class="chat-ai">Chat AI</div>
+        <div class="app-store">App Store</div>
+    </div>
+    <script>
+        function toggleStartMenu() {
+            var menu = document.getElementById('startMenu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Drag and drop functionality
+        function drag(event) {
+            event.preventDefault();
+            var element = event.target;
+            element.style.position = 'absolute';
+            element.style.zIndex = '1000';
+
+            function moveAt(pageX, pageY) {
+                element.style.left = pageX - element.offsetWidth / 2 + 'px';
+                element.style.top = pageY - element.offsetHeight / 2 + 'px';
+            }
+
+            moveAt(event.pageX, event.pageY);
+
+            function onMouseMove(event) {
+                moveAt(event.pageX, event.pageY);
+            }
+
+            document.addEventListener('mousemove', onMouseMove);
+            element.onmouseup = function() {
+                document.removeEventListener('mousemove', onMouseMove);
+                element.onmouseup = null;
+            };
+        }
+
+        document.querySelectorAll('.draggable').forEach(item => {
+            item.addEventListener('mousedown', drag);
+        });
+    </script>
 </body>
 </html>
